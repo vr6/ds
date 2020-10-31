@@ -8,10 +8,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plot
 
-df = pd.read_csv('./ISLR-python-master/Notebooks/Data/Advertising.csv', usecols=[1,2,3,4])
+df = pd.read_csv('Advertising.csv', usecols=[1,2,3,4])
 
 # print (df[0:2])                       # select rows (all columns)
-# print (df2[["TV"]])                   € select columns (all rows)
+# print (df2[["TV"]])                   # select columns (all rows)
 # print (df.iloc[0:2, [0,3]])           # select rows and columns
 # print (df[df["TV"] > 250])            # where clause
 # print (len(df[df["TV"] > 250]))       # row count
