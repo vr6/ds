@@ -23,10 +23,14 @@ x1 = x1.reshape(n,1)
 plt.scatter(x1, y)
 # these ae the data points on horizontal lines (blue dots)
 
-model = LogisticRegression()
+model = LogisticRegression(C=100)
 model.fit(x1, y)
 c0 = model.intercept_
 c1 = model.coef_
 print(c0, c1)
 c = 1 / (1 +  np.exp(-c0 - c1 * x1))
 plt.plot(x1, c, color='red')
+# red curve is the predicted function
+
+
+# %%
