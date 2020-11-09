@@ -1,22 +1,45 @@
 
 # %%
 import numpy as np
-from sklearn.linear_model import LinearRegression
+import torch
 
-x1 = np.random.randn(100)
-x2 = np.random.randn(100)
-er = np.random.randn(100)
+def logf(X, b):
+    f = X @ b
+    return 1 / (1 + torch.exp(-f))
+
+def LogisticFit (X, y):
+    xt = torch.Tensor(X)
+    yt = torch.Tensor(y)
+
+    # loss = torch.nn.NLLLoss()
+    lossfn = torch.nn.BCELoss()
+    b = torch.ones(X.shape[1])
+    b.requires_grad_()
+
+    # use torch.adam
+    step_size = 0.5
+    for i in range(2000):
+        y_pred = logf(xt, b)
+        loss_value = lossfn(y_pred, yt)
+        
+        loss_value.backward()
+        with torch.no_grad():
+            b -= step_size * b.grad
+            b.grad.zero_()
+    return b
+
+n = 100
+x1 = np.random.randn(n)
+x2 = np.random.randn(n)
+er = np.random.randn(n) * 0.2
 X = np.vstack([np.ones(100), x1, x2]).T
 
-# y = 2 + 5 * x1 + 7 * x2 + er
-w = np.array([2, 5, 7]).T
-y = X @ w + er
+w = np.array([2, 5, 4]).T
+f = X @ w + er
+y = 1 / (1 +  np.exp(-f))
+print (LogisticFit(X, y))
 
-B = np.linalg.inv (X.T @ X) @ X.T @ y
-print (B)
-
-model = LinearRegression()
-model.fit(X, y)
-print(model.intercept_, model.coef_)
+# B = np.linalg.inv (X.T @ X) @ X.T @ y
+# print (B)
 
 # %%
