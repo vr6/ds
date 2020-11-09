@@ -4,8 +4,7 @@ import numpy as np
 import torch
 
 def logf(X, b):
-    f = X @ b
-    return 1 / (1 + torch.exp(-f))
+    return 1 / (1 + torch.exp(-X @ b))
 
 def LogisticFit (X, y):
     xt = torch.Tensor(X)
