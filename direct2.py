@@ -8,17 +8,15 @@ def logf(X, b):
 def LogisticFit (X, y):
     xt = torch.Tensor(X)
     yt = torch.Tensor(y)
-
-    # loss = torch.nn.NLLLoss()
-    lossfn = torch.nn.BCELoss()
     b = torch.ones(X.shape[1])
     b.requires_grad_()
 
-    # use torch.adam
+    lossfn = torch.nn.BCELoss()
     step_size = 0.5
+
+    # use torch.adam
     for i in range(2000):
-        y_pred = logf(xt, b)
-        loss_value = lossfn(y_pred, yt)
+        loss_value = lossfn(logf(xt, b), yt)
         loss_value.backward()
         with torch.no_grad():
             b -= step_size * b.grad
